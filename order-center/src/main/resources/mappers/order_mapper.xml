@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tallate.tinycart.dao.OrderDao">
+
+    <resultMap id="map" type="com.tallate.tinycart.bean.Order">
+        <result property="orderNo" column="order_no"/>
+        <result property="userName" column="user_name"/>
+        <result property="goodsList" column="goods_list" typeHandler="com.tallate.tinycart.util.GoodsListTypeHandler"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.tallate.tinycart.bean.Order">
+        insert into `order` (
+        order_no,
+        user_name,
+        goods_list
+        )
+        values (
+        #{order.orderNo},
+        #{order.userName},
+        #{order.goodsList, typeHandler=com.tallate.tinycart.util.GoodsListTypeHandler}
+        )
+    </insert>
+
+    <select id="query" resultMap="map">
+        select
+        order_no,
+        user_name,
+        goods_list
+        from `order`
+        where
+        order_no = #{orderNo}
+    </select>
+
+    <select id="list" resultMap="map">
+        select (
+        order_no,
+        user_name,
+        goods_list
+        )
+        from `order`
+        where user_name = #{userName}
+    </select>
+
+</mapper>
